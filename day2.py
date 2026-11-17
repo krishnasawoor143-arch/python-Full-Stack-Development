@@ -64,3 +64,121 @@
 # s1.display()
 # s2.display()
 
+############### encapsulation #################
+
+# class student:
+#     def __init__(self):
+#         self.__marks = 0
+
+#     def set_marks(self,marks):
+#      self.__marks = marks
+
+#     def show_marks(self):
+#         print("Student marks:",self.__marks)
+
+
+# s1 =student()
+# s1.set_marks(85.5)
+# s1.show_marks()
+
+
+########## inheritance ##########
+#      single inheritane
+# class father:
+#     def house(seld):
+#         print("father has a house")
+
+# class son(father):
+#     def car(self):
+#         print("son has a car")
+
+# s = son()
+# s.house()
+# s.car()
+
+        #   multiple inheritance
+
+# class grandfather:
+#     def land(self):
+#         print("grandfather has land")
+
+# class father(grandfather):
+#     def house(self):
+#         print("father has a house")
+
+# class son(father):
+#     def car(self):
+#         print("son has a car")
+
+# s = son()
+# s.land()
+# s.house()
+# s.car()
+
+# #        hirarical inheritance
+
+# class grandfather:
+#     def land(self):
+#         print("Grandfather has land")
+
+
+# class father(grandfather):
+#     def house(self):
+#         print("Father has a house")
+
+
+# class uncle(grandfather):
+#     def car(self):
+#         print("Uncle has a car")
+
+
+# f = father()
+# f.land()
+# f.house()
+
+# print("----------------------")
+
+# u = uncle()
+# u.land()
+# u.car()
+
+
+#        polymorpism
+
+# class Animal:
+#     def sound(self):
+#         print("Animal makes a sound")
+
+# class Dog(Animal):
+#     def sound(self):
+#         print("Dog barks")
+
+# class Cat(Animal):
+#     def sound(self):
+#         print("Cat meows")
+
+# animals = [Dog(),Cat(),Animal()]
+# for animal in animals:
+#     animal.sound()
+    
+#        Abstracation
+
+from abc import ABC, abstractmethod
+
+class payment(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+class UPI(payment):
+    def pay(self, amount):
+        print(f"Paid {amount} using UPI")
+
+class Card(payment):
+    def pay(self, amount):
+        print(f"Paid {amount} using Card")
+
+p1 = UPI()
+p2 = Card()
+p1.pay(1000)
+p2.pay(2000)
