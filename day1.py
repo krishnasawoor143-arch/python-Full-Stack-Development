@@ -19,4 +19,4 @@ elif marks >= 60:
 elif marks >= 50:
     print("D")
 else:
-    print("You ARE THE GAY")
+    print("You are failed")
