@@ -38,16 +38,6 @@ postgres=# \c collage
 You are now connected to database "collage" as user "postgres".
 collage=# CREATE TABLE student (
 collage(# id SERIAL PRIMARY KEY,
-collage(# nameVARCHAR(100),
-collage(#
-collage(#
-collage(#
-collage(# );
-ERROR:  syntax error at or near "("
-LINE 3: nameVARCHAR(100),
-                   ^
-collage=# CREATE TABLE student (
-collage(# id SERIAL PRIMARY KEY,
 collage(# name VARCHAR(100),
 collage(# age INT,
 collage(# course VARCHAR(50),
@@ -70,34 +60,6 @@ collage=# \dt
  public | student | table | postgres
 (1 row)
 
-
-collage=# INSERT INTO students (name, age, course, narks)
-collage-# VALUES
-collage-# ('Krishna',21,'BE' 88),
-collage-# ('Kiran',22,'BSA' 77),
-collage-# ('Shasank',19,'BA' 68),
-collage-# ('Shreyas',19,'MCA' 99);
-ERROR:  syntax error at or near "88"
-LINE 3: ('Krishna',21,'BE' 88),
-                           ^
-collage=# INSERT INTO students (name, age, course, narks)
-collage-# VALUES
-collage-# ('Krishna',21,'BE', 88),
-collage-# ('Kiran',22,'BSA' 77),
-collage-# ('Shasank',19,'BA' 68),
-collage-# ('Shreyas',19,'MCA' 99);
-ERROR:  syntax error at or near "77"
-LINE 4: ('Kiran',22,'BSA' 77),
-                          ^
-collage=# INSERT INTO students (name, age, course, marks)
-collage-# VALUES
-collage-# ('Krishna',21,'BE', 88),
-collage-# ('Kiran',22,'BSA', 77),
-collage-# ('Shasank',19,'BA', 68),
-collage-# ('Shreyas',19,'MCA', 99);
-ERROR:  relation "students" does not exist
-LINE 1: INSERT INTO students (name, age, course, marks)
-                    ^
 collage=# INSERT INTO student (name, age, course, marks)
 collage-# VALUES
 collage-# ('Krishna',21,'BE', 88),
@@ -133,17 +95,6 @@ collage-# WHERE marks < 80;
   3 | Shasank |  19 | BA     |    68
 (2 rows)
 
-
-collage=# SELECT * FROM student
-collage-# ORDERED BY marks DESC;
-ERROR:  syntax error at or near "BY"
-LINE 2: ORDERED BY marks DESC;
-                ^
-collage=# SELECT * FROM student
-collage-# ORDERE BY marks DESC;
-ERROR:  syntax error at or near "BY"
-LINE 2: ORDERE BY marks DESC;
-               ^
 collage=# SELECT * FROM student
 collage-# ORDER BY marks DESC;
  id |  name   | age | course | marks
@@ -154,12 +105,6 @@ collage-# ORDER BY marks DESC;
   3 | Shasank |  19 | BA     |    68
 (4 rows)
 
-
-collage=# SELECT * FROM student
-collage-# ORDER BY marks ASE;
-ERROR:  syntax error at or near "ASE"
-LINE 2: ORDER BY marks ASE;
-                       ^
 collage=# SELECT * FROM student
 collage-# ORDER BY marks ASC;
  id |  name   | age | course | marks
@@ -184,38 +129,11 @@ collage=# SELECT * FROM student;
   1 | Krishna |  21 | BE     |    92
 (4 rows)
 
-
-collage=# UPDATE student
-collage-# SET marks = 100
-collage-# WHERE id = 3 , 4;
-ERROR:  syntax error at or near ","
-LINE 3: WHERE id = 3 , 4;
-                     ^
 collage=# UPDATE student
 collage-# SET marks = 100
 collage-# ;
 UPDATE 4
-collage=# UPDATE student
-collage-# SET marks = 100,87
-collage-# WHERE id = 3,4;
-ERROR:  syntax error at or near "87"
-LINE 2: SET marks = 100,87
-                        ^
-collage=# ;
-collage=# UPDATE student
-collage-# SET marks = 100 87
-collage-# WHERE id = 3 4;
-ERROR:  syntax error at or near "87"
-LINE 2: SET marks = 100 87
-                        ^
-collage=# UPDATE student
-collage-# SET marks = 100
-collage-# SET marks = 98
-collage-# WHERE id = 3
-collage-# WHERE id = 4;
-ERROR:  syntax error at or near "SET"
-LINE 3: SET marks = 98
-        ^
+
 collage=# UPDATE student
 collage-# SET marks = 98
 collage-# WHERE id IN (1,3,4);
@@ -272,19 +190,6 @@ collage=# SELECT * FROM student;
   3 | Shasank |  19 | BA     |   100
 (3 rows)
 
-
-collage=# limit 1;
-ERROR:  syntax error at or near "limit"
-LINE 1: limit 1;
-        ^
-collage=# Limit 1;
-ERROR:  syntax error at or near "Limit"
-LINE 1: Limit 1;
-        ^
-collage=# LIMIT 1;
-ERROR:  syntax error at or near "LIMIT"
-LINE 1: LIMIT 1;
-        ^
 collage=# SELECT * FROM student
 collage-# limit 1;
  id |  name   | age | course | marks
@@ -338,7 +243,7 @@ collage=# select count(*) from student;
 (1 row)
 
 
-collage=# select count(*) from student where course = 'MCA';
+collage=# select cocunt(*) from student where course = 'MCA';
  count
 -------
      1
@@ -359,13 +264,6 @@ collage=# SELECT course, count(*) from student group by course;
  BA     |     1
  BE     |     1
 (3 rows)
-
-
-collage=# SELECT course, max(marks) from student group by curse;
-ERROR:  column "curse" does not exist
-LINE 1: SELECT course, max(marks) from student group by curse;
-                                                        ^
-HINT:  Perhaps you meant to reference the column "student.course".
 collage=# SELECT course, max(marks) from student group by course;
  course | max
 --------+-----
@@ -408,12 +306,6 @@ collage(# card_number varchar(50),
 collage(# id int unique references student(id)
 collage(# );
 CREATE TABLE
-collage=# insert into student_card(card_number, id)
-collage-# values
-collage-# ('card101',1),
-collage-# ('card102',2);
-ERROR:  insert or update on table "student_card" violates foreign key constraint "student_card_id_fkey"
-DETAIL:  Key (id)=(2) is not present in table "student".
 collage=# insert into student_card(card_number, id)
 collage-# values
 collage-# ('card101',4),
@@ -471,22 +363,6 @@ collage=# select *from departments;
 
 
 collage=# create table new(
-collage(# emply serial primary key,
-collage(# emply _name varchar(100),
-collage(# salary int,
-collage(# department_id int reference departments(department_id));
-ERROR:  syntax error at or near "varchar"
-LINE 3: emply _name varchar(100),
-                    ^
-collage=# create table new(
-collage(# emply_id serial primary key,
-collage(# emply_name varchar(100),
-collage(# salary int,
-collage(# department_id int reference departments(department_id));
-ERROR:  syntax error at or near "reference"
-LINE 5: department_id int reference departments(department_id));
-                          ^
-collage=# create table new(
 collage(# emply_id serial primary key,
 collage(# emply_name varchar(100),
 collage(# salary int,
@@ -499,38 +375,3 @@ collage=# select *from departments;
              2 | aiml
              3 | is
 (3 rows)
-
-
-collage=# insert into employee(employee_name,salary,department_id)
-collage-# values
-collage-# ('rj'25000,2),
-collage-# ('sa',30000,2),
-collage-# ('sv'40000,3);
-ERROR:  syntax error at or near "25000"
-LINE 3: ('rj'25000,2),
-             ^
-collage=# insert into employee(employee_name,salary,department_id)
-collage-# values
-collage-# ('rj',25000,2),
-collage-# ('sa',30000,2),
-collage-# ('sv'40000,3);
-ERROR:  syntax error at or near "40000"
-LINE 5: ('sv'40000,3);
-             ^
-collage=# insert into employee(employee_name,salary,department_id)
-collage-# values
-collage-# ('rj',25000,2),
-collage-# ('sa',30000,2),
-collage-# ('sv',40000,3);
-ERROR:  relation "employee" does not exist
-LINE 1: insert into employee(employee_name,salary,department_id)
-                    ^
-collage=# insert into emply(emply_name,salary,department_id)
-collage-# values
-collage-# ('rj',25000,2),
-collage-# ('sa',30000,2),
-collage-# ('sv',40000,3);
-ERROR:  relation "emply" does not exist
-LINE 1: insert into emply(emply_name,salary,department_id)
-                    ^
-collage=# department_name varchar(100))
