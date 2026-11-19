@@ -1,0 +1,536 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+
+psql (18.7)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=#  CREATE DATABASE collage;
+CREATE DATABASE
+postgres=# \l
+                                                            List of databases
+   Name    |  Owner   | Encoding | Locale Provider |      Collate       |       Ctype        | Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+--------------------+--------------------+--------+-----------+-----------------------
+ collage   | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ postgres  | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ student   | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ template0 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+(5 rows)
+
+
+postgres=# CREATE TABLE student (
+postgres(# id SERIAL PRIMARY KEY ,
+postgres(# name VARCHAR(100),
+postgres(# age INT,
+postgres(# course VARCHAR(50),
+postgres(# marks INT );
+CREATE TABLE
+postgres=#
+postgres=# \c collage
+You are now connected to database "collage" as user "postgres".
+collage=# CREATE TABLE student (
+collage(# id SERIAL PRIMARY KEY,
+collage(# nameVARCHAR(100),
+collage(#
+collage(#
+collage(#
+collage(# );
+ERROR:  syntax error at or near "("
+LINE 3: nameVARCHAR(100),
+                   ^
+collage=# CREATE TABLE student (
+collage(# id SERIAL PRIMARY KEY,
+collage(# name VARCHAR(100),
+collage(# age INT,
+collage(# course VARCHAR(50),
+collage(# marks INT );
+CREATE TABLE
+collage=# \dt
+           List of tables
+ Schema |  Name   | Type  |  Owner
+--------+---------+-------+----------
+ public | student | table | postgres
+(1 row)
+
+
+collage=# \c collage
+You are now connected to database "collage" as user "postgres".
+collage=# \dt
+           List of tables
+ Schema |  Name   | Type  |  Owner
+--------+---------+-------+----------
+ public | student | table | postgres
+(1 row)
+
+
+collage=# INSERT INTO students (name, age, course, narks)
+collage-# VALUES
+collage-# ('Krishna',21,'BE' 88),
+collage-# ('Kiran',22,'BSA' 77),
+collage-# ('Shasank',19,'BA' 68),
+collage-# ('Shreyas',19,'MCA' 99);
+ERROR:  syntax error at or near "88"
+LINE 3: ('Krishna',21,'BE' 88),
+                           ^
+collage=# INSERT INTO students (name, age, course, narks)
+collage-# VALUES
+collage-# ('Krishna',21,'BE', 88),
+collage-# ('Kiran',22,'BSA' 77),
+collage-# ('Shasank',19,'BA' 68),
+collage-# ('Shreyas',19,'MCA' 99);
+ERROR:  syntax error at or near "77"
+LINE 4: ('Kiran',22,'BSA' 77),
+                          ^
+collage=# INSERT INTO students (name, age, course, marks)
+collage-# VALUES
+collage-# ('Krishna',21,'BE', 88),
+collage-# ('Kiran',22,'BSA', 77),
+collage-# ('Shasank',19,'BA', 68),
+collage-# ('Shreyas',19,'MCA', 99);
+ERROR:  relation "students" does not exist
+LINE 1: INSERT INTO students (name, age, course, marks)
+                    ^
+collage=# INSERT INTO student (name, age, course, marks)
+collage-# VALUES
+collage-# ('Krishna',21,'BE', 88),
+collage-# ('Kiran',22,'BSA', 77),
+collage-# ('Shasank',19,'BA', 68),
+collage-# ('Shreyas',19,'MCA', 99);
+INSERT 0 4
+collage=#
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  1 | Krishna |  21 | BE     |    88
+  2 | Kiran   |  22 | BSA    |    77
+  3 | Shasank |  19 | BA     |    68
+  4 | Shreyas |  19 | MCA    |    99
+(4 rows)
+
+
+collage=# SELECT * FROM student
+collage-# WHERE marks > 80;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  1 | Krishna |  21 | BE     |    88
+  4 | Shreyas |  19 | MCA    |    99
+(2 rows)
+
+
+collage=# SELECT * FROM student
+collage-# WHERE marks < 80;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  2 | Kiran   |  22 | BSA    |    77
+  3 | Shasank |  19 | BA     |    68
+(2 rows)
+
+
+collage=# SELECT * FROM student
+collage-# ORDERED BY marks DESC;
+ERROR:  syntax error at or near "BY"
+LINE 2: ORDERED BY marks DESC;
+                ^
+collage=# SELECT * FROM student
+collage-# ORDERE BY marks DESC;
+ERROR:  syntax error at or near "BY"
+LINE 2: ORDERE BY marks DESC;
+               ^
+collage=# SELECT * FROM student
+collage-# ORDER BY marks DESC;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |    99
+  1 | Krishna |  21 | BE     |    88
+  2 | Kiran   |  22 | BSA    |    77
+  3 | Shasank |  19 | BA     |    68
+(4 rows)
+
+
+collage=# SELECT * FROM student
+collage-# ORDER BY marks ASE;
+ERROR:  syntax error at or near "ASE"
+LINE 2: ORDER BY marks ASE;
+                       ^
+collage=# SELECT * FROM student
+collage-# ORDER BY marks ASC;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  3 | Shasank |  19 | BA     |    68
+  2 | Kiran   |  22 | BSA    |    77
+  1 | Krishna |  21 | BE     |    88
+  4 | Shreyas |  19 | MCA    |    99
+(4 rows)
+
+
+collage=# UPDATE student
+collage-# SET marks = 92
+collage-# WHERE id = 1;
+UPDATE 1
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  2 | Kiran   |  22 | BSA    |    77
+  3 | Shasank |  19 | BA     |    68
+  4 | Shreyas |  19 | MCA    |    99
+  1 | Krishna |  21 | BE     |    92
+(4 rows)
+
+
+collage=# UPDATE student
+collage-# SET marks = 100
+collage-# WHERE id = 3 , 4;
+ERROR:  syntax error at or near ","
+LINE 3: WHERE id = 3 , 4;
+                     ^
+collage=# UPDATE student
+collage-# SET marks = 100
+collage-# ;
+UPDATE 4
+collage=# UPDATE student
+collage-# SET marks = 100,87
+collage-# WHERE id = 3,4;
+ERROR:  syntax error at or near "87"
+LINE 2: SET marks = 100,87
+                        ^
+collage=# ;
+collage=# UPDATE student
+collage-# SET marks = 100 87
+collage-# WHERE id = 3 4;
+ERROR:  syntax error at or near "87"
+LINE 2: SET marks = 100 87
+                        ^
+collage=# UPDATE student
+collage-# SET marks = 100
+collage-# SET marks = 98
+collage-# WHERE id = 3
+collage-# WHERE id = 4;
+ERROR:  syntax error at or near "SET"
+LINE 3: SET marks = 98
+        ^
+collage=# UPDATE student
+collage-# SET marks = 98
+collage-# WHERE id IN (1,3,4);
+UPDATE 3
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  2 | Kiran   |  22 | BSA    |   100
+  1 | Krishna |  21 | BE     |    98
+  3 | Shasank |  19 | BA     |    98
+  4 | Shreyas |  19 | MCA    |    98
+(4 rows)
+
+
+collage=# UPDATE student
+collage-# SET marks = CASE
+collage-# WHEN id = 1 THEN 92
+collage-# WHEN id = 2 THEN 90
+collage-# WHEN id = 3 THEN 95
+collage-# END
+collage-# WHERE id IN (1,2,3);
+UPDATE 3
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |    98
+  1 | Krishna |  21 | BE     |    92
+  2 | Kiran   |  22 | BSA    |    90
+  3 | Shasank |  19 | BA     |    95
+(4 rows)
+
+
+collage=# UPDATE student
+collage-# SET marks = marks + 5;
+UPDATE 4
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+  1 | Krishna |  21 | BE     |    97
+  2 | Kiran   |  22 | BSA    |    95
+  3 | Shasank |  19 | BA     |   100
+(4 rows)
+
+
+collage=# DELETE FROM student
+collage-# WHERE id = 2;
+DELETE 1
+collage=# SELECT * FROM student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+  1 | Krishna |  21 | BE     |    97
+  3 | Shasank |  19 | BA     |   100
+(3 rows)
+
+
+collage=# limit 1;
+ERROR:  syntax error at or near "limit"
+LINE 1: limit 1;
+        ^
+collage=# Limit 1;
+ERROR:  syntax error at or near "Limit"
+LINE 1: Limit 1;
+        ^
+collage=# LIMIT 1;
+ERROR:  syntax error at or near "LIMIT"
+LINE 1: LIMIT 1;
+        ^
+collage=# SELECT * FROM student
+collage-# limit 1;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+(1 row)
+
+
+collage=# SELECT * FROM student
+collage-# limit 4;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+  1 | Krishna |  21 | BE     |    97
+  3 | Shasank |  19 | BA     |   100
+(3 rows)
+
+
+collage=# SELECT * FROM student
+collage-# ORDER BY marks DESC
+collage-# limit 3;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+  3 | Shasank |  19 | BA     |   100
+  1 | Krishna |  21 | BE     |    97
+(3 rows)
+
+
+collage=# select count(*)
+collage-# from student;
+ count
+-------
+     3
+(1 row)
+
+
+collage=# select * from student;
+ id |  name   | age | course | marks
+----+---------+-----+--------+-------
+  4 | Shreyas |  19 | MCA    |   103
+  1 | Krishna |  21 | BE     |    97
+  3 | Shasank |  19 | BA     |   100
+(3 rows)
+
+
+collage=# select count(*) from student;
+ count
+-------
+     3
+(1 row)
+
+
+collage=# select count(*) from student where course = 'MCA';
+ count
+-------
+     1
+(1 row)
+
+
+collage=# select count(*) from student where course = 'BE';
+ count
+-------
+     1
+(1 row)
+
+
+collage=# SELECT course, count(*) from student group by course;
+ course | count
+--------+-------
+ MCA    |     1
+ BA     |     1
+ BE     |     1
+(3 rows)
+
+
+collage=# SELECT course, max(marks) from student group by curse;
+ERROR:  column "curse" does not exist
+LINE 1: SELECT course, max(marks) from student group by curse;
+                                                        ^
+HINT:  Perhaps you meant to reference the column "student.course".
+collage=# SELECT course, max(marks) from student group by course;
+ course | max
+--------+-----
+ MCA    | 103
+ BA     | 100
+ BE     |  97
+(3 rows)
+
+
+collage=# SELECT course, avg(marks) from student group by course;
+ course |         avg
+--------+----------------------
+ MCA    | 103.0000000000000000
+ BA     | 100.0000000000000000
+ BE     |  97.0000000000000000
+(3 rows)
+
+
+collage=# SELECT course, max(marks) from student group by course;
+ course | max
+--------+-----
+ MCA    | 103
+ BA     | 100
+ BE     |  97
+(3 rows)
+
+
+collage=# SELECT course, min(marks) from student group by course;
+ course | min
+--------+-----
+ MCA    | 103
+ BA     | 100
+ BE     |  97
+(3 rows)
+
+
+collage=# create table student_card(
+collage(# card_id serial primary key,
+collage(# card_number varchar(50),
+collage(# id int unique references student(id)
+collage(# );
+CREATE TABLE
+collage=# insert into student_card(card_number, id)
+collage-# values
+collage-# ('card101',1),
+collage-# ('card102',2);
+ERROR:  insert or update on table "student_card" violates foreign key constraint "student_card_id_fkey"
+DETAIL:  Key (id)=(2) is not present in table "student".
+collage=# insert into student_card(card_number, id)
+collage-# values
+collage-# ('card101',4),
+collage-# ('card102',3);
+INSERT 0 2
+collage=# select * from student_card;
+ card_id | card_number | id
+---------+-------------+----
+       3 | card101     |  4
+       4 | card102     |  3
+(2 rows)
+
+
+collage=# create a table departments(
+collage(# department_id serial primary key,
+collage(# department_name varchar(100));
+ERROR:  syntax error at or near "a"
+LINE 1: create a table departments(
+               ^
+collage=# create  table departments(
+collage(# department_id serial primary key,
+collage(# department_name varchar(100));
+CREATE TABLE
+collage=# insert into departments(departments_name)
+collage-# values
+collage-# ('cse')
+collage-# ('mech')
+collage-# ('cse'),('aiml'),('is');
+ERROR:  syntax error at or near "("
+LINE 4: ('mech')
+        ^
+collage=# insert into departments(departments_name)
+collage-# values
+collage-# ('cse'),('aiml'),('is');
+ERROR:  column "departments_name" of relation "departments" does not exist
+LINE 1: insert into departments(departments_name)
+                                ^
+collage=# select *from departments;
+ department_id | department_name
+---------------+-----------------
+(0 rows)
+
+
+collage=# insert into departments(department_name)
+collage-# values
+collage-# ('cse'),('aiml'),('is');
+INSERT 0 3
+collage=# select *from departments;
+ department_id | department_name
+---------------+-----------------
+             1 | cse
+             2 | aiml
+             3 | is
+(3 rows)
+
+
+collage=# create table new(
+collage(# emply serial primary key,
+collage(# emply _name varchar(100),
+collage(# salary int,
+collage(# department_id int reference departments(department_id));
+ERROR:  syntax error at or near "varchar"
+LINE 3: emply _name varchar(100),
+                    ^
+collage=# create table new(
+collage(# emply_id serial primary key,
+collage(# emply_name varchar(100),
+collage(# salary int,
+collage(# department_id int reference departments(department_id));
+ERROR:  syntax error at or near "reference"
+LINE 5: department_id int reference departments(department_id));
+                          ^
+collage=# create table new(
+collage(# emply_id serial primary key,
+collage(# emply_name varchar(100),
+collage(# salary int,
+collage(# department_id int references departments(department_id));
+CREATE TABLE
+collage=# select *from departments;
+ department_id | department_name
+---------------+-----------------
+             1 | cse
+             2 | aiml
+             3 | is
+(3 rows)
+
+
+collage=# insert into employee(employee_name,salary,department_id)
+collage-# values
+collage-# ('rj'25000,2),
+collage-# ('sa',30000,2),
+collage-# ('sv'40000,3);
+ERROR:  syntax error at or near "25000"
+LINE 3: ('rj'25000,2),
+             ^
+collage=# insert into employee(employee_name,salary,department_id)
+collage-# values
+collage-# ('rj',25000,2),
+collage-# ('sa',30000,2),
+collage-# ('sv'40000,3);
+ERROR:  syntax error at or near "40000"
+LINE 5: ('sv'40000,3);
+             ^
+collage=# insert into employee(employee_name,salary,department_id)
+collage-# values
+collage-# ('rj',25000,2),
+collage-# ('sa',30000,2),
+collage-# ('sv',40000,3);
+ERROR:  relation "employee" does not exist
+LINE 1: insert into employee(employee_name,salary,department_id)
+                    ^
+collage=# insert into emply(emply_name,salary,department_id)
+collage-# values
+collage-# ('rj',25000,2),
+collage-# ('sa',30000,2),
+collage-# ('sv',40000,3);
+ERROR:  relation "emply" does not exist
+LINE 1: insert into emply(emply_name,salary,department_id)
+                    ^
+collage=# department_name varchar(100))
